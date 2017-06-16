@@ -7,6 +7,7 @@ import argparse
 import re
 import json
 from normalize import normalize_html
+import traceback
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run cmark tests.')
@@ -45,6 +46,14 @@ def do_test(func, test, normalize, result_counts):
                           test['start_line'], test['end_line'])
         out('program returned error code %d\n' % e.returncode)
         sys.stdout.buffer.write(e.stderr)
+        result_counts['error'] += 1
+        return
+    except Exception as e:
+        print_test_header(test['section'], test['example'],
+                          test['start_line'], test['end_line'])
+        out('A Python exception was raised:\n')
+        out(traceback.format_exc())
+        out('\n')
         result_counts['error'] += 1
         return
 
