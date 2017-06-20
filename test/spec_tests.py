@@ -44,6 +44,7 @@ def do_test(func, test, normalize, result_counts):
     except ExternalProgramError as e:
         print_test_header(test['section'], test['example'],
                           test['start_line'], test['end_line'])
+        out(test['markdown'] + '\n')
         out('program returned error code %d\n' % e.returncode)
         sys.stdout.buffer.write(e.stderr)
         result_counts['error'] += 1
@@ -51,6 +52,7 @@ def do_test(func, test, normalize, result_counts):
     except Exception as e:
         print_test_header(test['section'], test['example'],
                           test['start_line'], test['end_line'])
+        out(test['markdown'] + '\n')
         out('A Python exception was raised:\n')
         out(traceback.format_exc())
         out('\n')
